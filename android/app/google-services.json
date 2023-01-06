@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "826636052933",
+    "project_id": "tic-tac-game-60721",
+    "storage_bucket": "tic-tac-game-60721.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826636052933:android:77cf1f939c1d2aad1643ac",
+        "android_client_info": {
+          "package_name": "com.example.tic_tac_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826636052933-k2kjjj0cbstpvn65udfrbueb0715ajs7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDWyH8wi5qq2ozh2ZaFWEutIogZHkO3io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826636052933-k2kjjj0cbstpvn65udfrbueb0715ajs7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "826636052933-dl3c1jnb78u319i32kumdc1u37v1198c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ticTacGame"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
