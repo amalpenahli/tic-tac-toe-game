@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:tic_tac_game/functions/button_sound.dart';
 import 'package:tic_tac_game/provider/provider_info.dart';
 import 'package:tic_tac_game/functions/snacbar_bottom.dart';
-import 'package:tic_tac_game/screens/confetti_win.dart';
 
-late CountDownController controller = CountDownController();
+import 'alertCup.dart';
+
+CountDownController controller = CountDownController();
 
 void checkWinner(BuildContext context) {
   List<List<int>> winninglist = [
@@ -22,22 +23,46 @@ void checkWinner(BuildContext context) {
   ];
 
   for (var winningPos in winninglist) {
-    print(winningPos);
     String playerPosition0 =
         Provider.of<MyProvider>(context, listen: false).occupied[winningPos[0]];
+
     String playerPosition1 =
         Provider.of<MyProvider>(context, listen: false).occupied[winningPos[1]];
     String playerPosition2 =
         Provider.of<MyProvider>(context, listen: false).occupied[winningPos[2]];
+
     if (playerPosition0.isNotEmpty) {
       if (playerPosition0 == playerPosition1 &&
           playerPosition0 == playerPosition2) {
         if (playerPosition0 == "X") {
+          if (Provider.of<MyProvider>(context, listen: false).playerPoint1 ==
+              2) {
+            alertSilver(context);
+          } else if (Provider.of<MyProvider>(context, listen: false)
+                  .playerPoint1 ==
+              3) {
+            alertGold(context);
+          } else if (Provider.of<MyProvider>(context, listen: false)
+                  .playerPoint1 ==
+              6) {
+            alertPlatinium(context);
+          } else if (Provider.of<MyProvider>(context, listen: false)
+                  .playerPoint1 ==
+              9) {
+            alertDiamond(context);
+          }
+
+          Provider.of<MyProvider>(context, listen: false).colorX =
+              Colors.green.withOpacity(0.5);
           Provider.of<MyProvider>(context, listen: false).playerPoint1 += 1;
+          Provider.of<MyProvider>(context, listen: false).countdownStart =
+              false;
           showMessage(
               "Player ${Provider.of<MyProvider>(context, listen: false).defaultName} won",
               context);
         } else if (playerPosition0 == "O") {
+          Provider.of<MyProvider>(context, listen: false).colorO =
+              Colors.red.withOpacity(0.5);
           showMessage(
               "Player ${Provider.of<MyProvider>(context, listen: false).player2} won",
               context);
@@ -48,27 +73,13 @@ void checkWinner(BuildContext context) {
         Provider.of<MyProvider>(context, listen: false).confettiContanier =
             true;
 
-        //Provider.of<MyProvider>(context, listen: false).invisible = false;
-        //Provider.of<MyProvider>(context, listen: false).player2 = "";
         Provider.of<MyProvider>(context, listen: false).gameEnd = true;
-        //bax buna///////////////////////////////////////////////
+
         Provider.of<MyProvider>(context, listen: false).timer = true;
         Provider.of<MyProvider>(context, listen: false).currentPlayer =
             "end game";
-        //Provider.of<MyProvider>(context, listen: false).defaultName = "win";
-        //Provider.of<MyProvider>(context, listen: false).playerO = "";
-        //Provider.of<MyProvider>(context, listen: false).playerX = "";
-        // Provider.of<MyProvider>(context, listen: false).invisibleButtonSave = false;
 
         return;
-        // } else if (playerPosition0.isNotEmpty &&
-        //     playerPosition1.isNotEmpty &&
-        //     playerPosition2.isNotEmpty) {
-        //   if (playerPosition0 != playerPosition1 &&
-        //       playerPosition0 != playerPosition2 &&
-        //       playerPosition2 != playerPosition1) {
-        //     print("get tullan");
-        //   }
       }
     }
   }

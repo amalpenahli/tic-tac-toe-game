@@ -1,6 +1,16 @@
-import 'package:flutter/material.dart';
 
-AppBar appBar = AppBar(
+
+
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:tic_tac_game/functions/show_alert.dart';
+
+
+
+
+  AppBar appBar (context){
+return AppBar(
   flexibleSpace: Container(
     decoration: const BoxDecoration(
       gradient: LinearGradient(
@@ -10,11 +20,34 @@ AppBar appBar = AppBar(
     ),
   ),
   elevation: 0,
-  title: const Text(
-    "tic-tac game",
-    style: TextStyle(color: Colors.black),
-  ),
-);
+  title:  SingleChildScrollView(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Tic-tac-toe game",
+          style:GoogleFonts.akronim(
+          textStyle: const TextStyle(color: Colors.black, fontSize: 36,fontWeight: FontWeight.w500),
+        ),
+          
+        ),
+  
+        IconButton(onPressed: (){
+          
+     showAlert(context);
+        }, icon:const Icon(Icons.info))
+      ],
+    ),
+  )
+  );
+  
+}
+
+ 
+
+ 
+
+
 
 AppBar appBarPoint = AppBar(
   flexibleSpace: Container(
@@ -26,8 +59,10 @@ AppBar appBarPoint = AppBar(
     ),
   ),
   elevation: 0,
-  title: const Text(
+  title:  Text(
     "Players Point",
-    style: TextStyle(color: Colors.black),
+    style:GoogleFonts.akronim(
+    textStyle: const TextStyle(color: Colors.black, fontSize: 45,fontWeight: FontWeight.w500),
+  ),
   ),
 );

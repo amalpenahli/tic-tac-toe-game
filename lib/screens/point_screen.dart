@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +42,7 @@ class _PointScreenState extends State<PointScreen> {
         appBar: appBarPoint,
         body: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection("playersInfo")
+                .collection("pointInfo")
                 .where("userId",
                     isEqualTo: Provider.of<MyProvider>(context, listen: false)
                         .checkUser())
@@ -53,9 +55,9 @@ class _PointScreenState extends State<PointScreen> {
                   shrinkWrap: true,
                   itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot documentSnapshot =
-                        snapshot.data.docs[index];
-                    print(snapshot.data.docs[index]);
+                    List<DocumentSnapshot> documents = snapshot.data!.docs;
+                    Map<String, dynamic> documentSnapshot =
+                        documents[index].data() as Map<String, dynamic>;
 
                     return SizedBox(
                       height: 120,
@@ -82,20 +84,21 @@ class _PointScreenState extends State<PointScreen> {
                                       documentSnapshot["player1Name"],
                                       style: textStyle1,
                                     ),
-                                    Text(documentSnapshot["player1Point"]),
+                                    Text(
+                                      documentSnapshot["player1Point"],
+                                      style: textStyle12,
+                                    ),
                                     IconButton(
                                         onPressed: () {
                                           setState(() {
-                                            FirebaseFirestore.instance
-                                                .collection("playersInfo")
-                                                .doc(documentSnapshot.id)
-                                                .delete();
+                                            print(index);
+                                           FirebaseFirestore.instance.collection('pointInfo').doc(documents[index].id).delete();
                                           });
                                         },
                                         icon: const Icon(
                                           Icons.delete,
                                           color: Colors.white,
-                                          size: 35,
+                                          size: 28,
                                         ))
                                   ],
                                 ),
@@ -108,7 +111,21 @@ class _PointScreenState extends State<PointScreen> {
                                       documentSnapshot["player2Name"],
                                       style: textStyle1,
                                     ),
-                                    Text(documentSnapshot["player2Point"]),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          documentSnapshot["player2Point"],
+                                          style: textStyle12,
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          documentSnapshot["dateTime"],
+                                          style: textStyle11,
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
@@ -120,4 +137,18 @@ class _PointScreenState extends State<PointScreen> {
                   });
             }));
   }
+
+  // void deleteDocument(String documentId) async {
+  //   CollectionReference collection =
+  //       FirebaseFirestore.instance.collection('pointInfo');
+
+  //    DocumentReference docRef = collection.doc(documentId);
+
+  //   try {
+  //     await docRef.delete();
+  //     print('Document with ID $documentId deleted.');
+  //   } catch (e) {
+  //     print('Error deleting document: $e');
+  //   }
+  // }
 }

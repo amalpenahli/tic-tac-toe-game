@@ -1,8 +1,9 @@
-import 'dart:math';
+
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
+// ignore: camel_case_types
 class winConfetti extends StatefulWidget {
   const winConfetti({super.key});
 
@@ -10,6 +11,7 @@ class winConfetti extends StatefulWidget {
   State<winConfetti> createState() => _winConfettiState();
 }
 
+// ignore: camel_case_types
 class _winConfettiState extends State<winConfetti> {
   final controller = ConfettiController();
   @override

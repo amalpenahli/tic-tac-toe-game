@@ -6,6 +6,7 @@ void showMessage(String text, BuildContext context) {
     /// need to set following properties for best effect of awesome_snackbar_content
     elevation: 0,
     behavior: SnackBarBehavior.floating,
+    
     backgroundColor: Colors.transparent,
 
     content: AwesomeSnackbarContent(
@@ -147,4 +148,26 @@ showNotName(BuildContext context) {
     ..showSnackBar(snackBar);
 }
 
+
+void showStart(context) {
+  final snackBar = SnackBar(
+    /// need to set following properties for best effect of awesome_snackbar_content
+    elevation: 0,
+    behavior: SnackBarBehavior.floating,
+    
+    backgroundColor: Colors.transparent,
+
+    content: AwesomeSnackbarContent(
+      title: "Oyun başladı",
+      message: "",
+
+      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+      contentType: ContentType.help,
+    ),
+  );
+
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
+}
 

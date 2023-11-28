@@ -26,78 +26,93 @@ class _CountdownStartState extends State<CountdownStart> {
         //mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: NeonCircularTimer(
-                onComplete: () {
-                  controller.pause();
-
-                  (Provider.of<MyProvider>(context, listen: false).duration > 9
-                      ? showMessagee(context)
-                      : Provider.of<MyProvider>(context, listen: false)
-                          .duration);
-                  if (Provider.of<MyProvider>(context, listen: false)
-                          .duration >=
-                      10) {
-                    buttonTimesUp();
-                    Provider.of<MyProvider>(context, listen: false).gameEnd =
-                        true;
-                    Provider.of<MyProvider>(context, listen: false)
-                        .currentPlayer = "end game";
-                    return;
-                  }
-                },
-                width: 130,
-                controller: controller,
-                duration:
-                    Provider.of<MyProvider>(context, listen: false).duration,
-                strokeWidth: 5,
-                isTimerTextShown: true,
-                neumorphicEffect: true,
-                outerStrokeColor: Colors.grey.shade100,
-                innerFillGradient: LinearGradient(
-                    colors: [Colors.orange, Colors.blueAccent.shade400]),
-                neonGradient: LinearGradient(
-                    colors: [Colors.orange, Colors.blueAccent.shade400]),
-                strokeCap: StrokeCap.round,
-                innerFillColor: Colors.black12,
-                backgroudColor: Colors.grey.shade100,
-                neonColor: Colors.blue.shade900),
-          ),
-          Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Row(
               children: [
-                IconButton(
-                    icon: const Icon(Icons.play_arrow),
-                    onPressed: () {
-                      buttonPlay();
-                      controller.resume();
-                    }),
+                NeonCircularTimer(
+                  autoStart: Provider.of<MyProvider>(context, listen: false).countdownStart,
+                  
+                    onComplete: () {
+                    
+                    
+                      (Provider.of<MyProvider>(context, listen: false).duration > 9
+                          ? showMessagee(context)
+                          : Provider.of<MyProvider>(context, listen: false)
+                              .duration);
+                      if (Provider.of<MyProvider>(context, listen: false)
+                              .duration >=
+                          30) {
+                        buttonTimesUp();
+                        Provider.of<MyProvider>(context, listen: false).gameEnd =
+                            true;
+                        Provider.of<MyProvider>(context, listen: false)
+                            .currentPlayer = "end game";
+                        return;
+                      }
+                    },
+                   
+                    textStyle: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.purple,
+                        fontWeight: FontWeight.bold),
+                    width: 80,
+                    controller: controller,
+                    duration:
+                        Provider.of<MyProvider>(context, listen: false).duration,
+                    strokeWidth: 5,
+                    isTimerTextShown: true,
+                    neumorphicEffect: true,
+                    outerStrokeColor: Colors.grey.shade100,
+                    innerFillGradient: LinearGradient(
+                        colors: [Colors.orange, Colors.blueAccent.shade400]),
+                    neonGradient: LinearGradient(
+                        colors: [Colors.orange, Colors.blueAccent.shade400]),
+                    strokeCap: StrokeCap.round,
+                    innerFillColor: Colors.black12,
+                    backgroudColor: Colors.grey.shade100,
+                    neonColor: Colors.blue.shade900),
+                    
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left:8.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      icon: const Icon(Icons.play_arrow),
+                      onPressed: () {
+                        buttonPlay();
+                        controller.resume();
+                      }),
 
-                IconButton(
-                    icon: const Icon(Icons.pause),
-                    onPressed: () {
-                      //bax bura////////////////////////////////////////////////////
-                      setState(() {
-                        if (Provider.of<MyProvider>(context, listen: false)
-                                .timer ==
-                            false) {
-                          controller.pause();
-                        } else if (Provider.of<MyProvider>(context,
-                                    listen: false)
-                                .timer ==
-                            true) {
-                          controller.pause();
-                        }
-                      });
+                  IconButton(
+                      icon: const Icon(Icons.pause),
+                      onPressed: () {
+                        //bax bura////////////////////////////////////////////////////
+                        setState(() {
+                          if (Provider.of<MyProvider>(context, listen: false)
+                                  .timer ==
+                              false) {
+                            controller.pause();
+                          } else if (Provider.of<MyProvider>(context,
+                                      listen: false)
+                                  .timer ==
+                              true) {
+                            controller.pause();
+                          }
+                        });
 
-                      buttonStop();
-                    }),
-                //         IconButton(
-                //             icon: Icon(Icons.repeat),
-                //             onPressed: () {
-                //             cont.restart();
-                //             }),
-              ])
+                        buttonStop();
+                      }),
+                  //         IconButton(
+                  //             icon: Icon(Icons.repeat),
+                  //             onPressed: () {
+                  //             cont.restart();
+                  //             }),
+                ]),
+          )
         ],
       ),
     );

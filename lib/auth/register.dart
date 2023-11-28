@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -79,7 +80,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 15),
             TextFieldContainer(text: "name", controller: nameController),
             TextFieldContainer(text: "email", controller: emailController),
-            TextFieldContainer(text: "password", controller: passwordController),
+            TextFieldContainer(
+                text: "password", controller: passwordController),
             const SizedBox(
               height: 15,
             ),
@@ -88,12 +90,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onPressed: () {
                   setState(() {
                     signUp();
+                   
                   });
                 },
                 child: const Text("register")),
             Row(
               children: [
-                const Text("do you have registration??"),
+                const Text("have an account?"),
                 TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -102,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             builder: (context) => const LoginScreen()),
                       );
                     },
-                    child:const  Text("log in"))
+                    child: const Text("sign in"))
               ],
             )
           ]),
@@ -112,21 +115,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future signUp() async {
-    {
-      if (emailController.text == currentUser!.email) {
-        showRegisterEmail(context);
+   try {
+      if (emailController.text == "" || passwordController.text == ""||nameController.text ==""   ) {
+        showEmptyBox(context);
+        print("xanalar bos ola bilmez");
+      }else  if( emailController.text == currentUser!.email){
+         showRegisterEmail(context);
+        print("email movcuddur");
+      }else if (!emailController.text.contains("@")) {
+      showTrueEmail(context);
+       print("email dogru deyil");
+    } else if(emailController.text != currentUser!.email) {
+       print("qeydiyyat oldu");
+        await _firebaseAuth
+            .createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        )
+            .then((userCredential) async {
+          addToFirestore(userCredential.user!);
+        });
       }
-      await _firebaseAuth
-          .createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      )
-          .then((userCredential) async {
-        addToFirestore(userCredential.user!);
-      }).whenComplete(() => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              ));
+    }catch(e){
+      return;
     }
   }
 
@@ -138,7 +149,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     await usersCollection
         .doc(user.uid)
-        .set(addedUserInfo, SetOptions(merge: true));
+        .set(addedUserInfo, SetOptions(merge: true)).whenComplete(() => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                ));
   }
   // verifyPhone() async {
   //   String phone = "+$countryCode${phoneController.text}";

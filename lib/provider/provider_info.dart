@@ -1,11 +1,19 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 
 class MyProvider extends ChangeNotifier {
+  var data = DateFormat.yMMMEd().format(DateTime.now());
+  var hours = DateTime.now();
+  String userId = "";
+  String status = "bronze";
+  bool countdownStart = true;
+  Color colorX = Colors.green;
+  Color colorO = Colors.red;
   bool timer = false;
   bool confettiContanier = false;
-  final int duration = 10;
+  final int duration = 30;
   int playerPoint1 = 0;
   int playerPoint2 = 0;
   Color color = const Color.fromRGBO(255, 179, 50, 1);
@@ -31,9 +39,19 @@ class MyProvider extends ChangeNotifier {
   bool invisibleButtonSave = false;
   late List<String> occupied;
   double borderRadius = 0;
+  bool isLoggedIn = false;
 
   checkUser() {
     String id = FirebaseAuth.instance.currentUser!.uid;
     return id;
   }
+
+  void isLogged() {
+    
+    isLoggedIn = true;
+    notifyListeners();
+  }
+
+
+
 }

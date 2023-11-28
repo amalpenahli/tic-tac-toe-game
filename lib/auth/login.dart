@@ -8,9 +8,12 @@ import 'package:tic_tac_game/auth/register.dart';
 import 'package:tic_tac_game/button_style.dart';
 import 'package:tic_tac_game/constants/text_style.dart';
 import 'package:tic_tac_game/functions/snacbar_bottom.dart';
+import 'package:tic_tac_game/main.dart';
+import 'package:tic_tac_game/provider/provider_info.dart';
 
 import 'package:tic_tac_game/screens/home_page.dart';
 import 'package:tic_tac_game/widget/text_field.dart';
+// ignore: depend_on_referenced_packages
 import 'package:provider/provider.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,7 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
   late final User? currentUser;
   @override
   void initState() {
-    
+      if (Provider.of<MyProvider>(context, listen: false).isLoggedIn ==
+        true) {
+      getCurrentUser();
+    }
     super.initState();
     _firestore = FirebaseFirestore.instance;
     _firebaseAuth = FirebaseAuth.instance;
@@ -45,6 +51,18 @@ class _LoginScreenState extends State<LoginScreen> {
     emailController.dispose();
 
     passwordController.dispose();
+  }
+
+  void getCurrentUser() {
+    setState(() {
+      if (FirebaseAuth.instance.currentUser?.uid != null) {
+        Provider.of<MyProvider>(context, listen: false).userId =
+            FirebaseAuth.instance.currentUser!.uid;
+      }
+      // Provider.of<ProviderProfile>(context, listen: false).userId =
+      //     FirebaseAuth.instance.currentUser!.uid;
+      //     print(FirebaseAuth.instance.currentUser!.uid);
+    });
   }
 
   @override
@@ -79,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 20,
             ),
-            Text("log in and start playing", style: textStyle6),
+            Text("sign in and start playing", style: textStyle6),
             const SizedBox(height: 15),
             TextFieldContainer(text: "email", controller: emailController),
             TextFieldContainer(text: "password", controller: passwordController),
@@ -96,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text("log in")),
             Row(
               children: [
-               const Text("not registered?"),
+               const Text("don't have an account?"),
                 TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -115,11 +133,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future signIn() async {
+     Provider.of<MyProvider>(context, listen: false).isLogged();
     if (emailController.text == "" || passwordController.text == "") {
       showEmptyBox(context);
     } else if (!emailController.text.contains("@")) {
       showTrueEmail(context);
-    } else if (emailController.text != currentUser?.email) {
+    } else if (emailController.text != currentUser!.email) {
       showNotEmail(context);
     }
 
@@ -132,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),
             ));
-    ;
+    
     // } on FirebaseAuthException catch (e) {
     //   ScaffoldMessenger.of(context).showSnackBar(
     //     SnackBar(
@@ -141,6 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
     //     ),
     //   );
     // }
-    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
+     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

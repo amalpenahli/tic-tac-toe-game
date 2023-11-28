@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:tic_tac_game/auth/login.dart';
+
 import 'package:tic_tac_game/screens/home_page.dart';
 
+// ignore: use_key_in_widget_constructors
 class SplashScreen extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _SplashScreenState createState() => _SplashScreenState();
 }
 
